@@ -1,55 +1,55 @@
-# Jitterbit Order API
+# API de Gerenciamento de Pedidos Jitterbit
 
-A complete REST API for order management, developed in Node.js with Express, TypeScript and MySQL database. The API implements CRUD operations with automatic data transformation and robust validation.
+Uma API REST completa para gerenciamento de pedidos, desenvolvida em Node.js com Express, TypeScript e banco de dados MySQL. A API implementa operações CRUD com transformação automática de dados e validação robusta.
 
-## Features
+## Características
 
-- **Complete REST endpoints** for creating, reading, updating and deleting orders
-- **Automatic data transformation** between API format and database format
-- **Robust validation** with error messages in English
-- **Error handling** with appropriate HTTP status codes (200, 201, 400, 404, 500)
-- **MySQL database** with relational schema (Order and Items tables)
-- **Unit tests** with Vitest for data validation
-- **Clean and well-documented code** with descriptive comments
-- **TypeScript** for type safety and better development experience
+- **Endpoints REST completos** para criar, ler, atualizar e deletar pedidos
+- **Transformação automática de dados** entre formato de API e banco de dados
+- **Validação robusta** com mensagens de erro em português
+- **Tratamento de erros** com códigos HTTP apropriados (200, 201, 400, 404, 500)
+- **Banco de dados MySQL** com schema relacional (tabelas Order e Items)
+- **Testes unitários** com Vitest para validação de dados
+- **Código limpo e bem documentado** com comentários descritivos
+- **TypeScript** para type safety e melhor experiência de desenvolvimento
 
-## Requirements
+## Requisitos
 
 - Node.js 18+
-- npm or pnpm
+- npm ou pnpm
 - MySQL 8.0+
 
-## Installation
+## Instalação
 
-1. Clone the repository:
+1. Clone o repositório:
 ```bash
 git clone https://github.com/igorlini22-cmd/jitterbit-order-api.git
 cd jitterbit-order-api
 ```
 
-2. Install dependencies:
+2. Instale as dependências:
 ```bash
 pnpm install
 ```
 
-3. Set up the database:
+3. Configure o banco de dados:
 ```bash
 pnpm db:push
 ```
 
-4. Start the server:
+4. Inicie o servidor:
 ```bash
 pnpm dev
 ```
 
-The server will be available at `http://localhost:3000`
+O servidor estará disponível em `http://localhost:3000`
 
-## API Endpoints
+## Endpoints da API
 
-### Create Order
+### Criar Pedido
 **POST** `/api/order`
 
-Creates a new order with its items.
+Cria um novo pedido com seus itens.
 
 **Request Body:**
 ```json
@@ -86,10 +86,10 @@ Creates a new order with its items.
 }
 ```
 
-### Get Specific Order
+### Obter Pedido Específico
 **GET** `/api/order/:orderId`
 
-Retrieves a specific order by order number.
+Recupera um pedido específico pelo número.
 
 **Response (200 OK):**
 ```json
@@ -110,10 +110,10 @@ Retrieves a specific order by order number.
 }
 ```
 
-### List All Orders
+### Listar Todos os Pedidos
 **GET** `/api/order/list`
 
-Lists all orders with their items.
+Lista todos os pedidos com seus itens.
 
 **Response (200 OK):**
 ```json
@@ -130,12 +130,12 @@ Lists all orders with their items.
 }
 ```
 
-### Update Order
+### Atualizar Pedido
 **PUT** `/api/order/:orderId`
 
-Updates an existing order.
+Atualiza um pedido existente.
 
-**Request Body (all fields optional):**
+**Request Body (todos os campos opcionais):**
 ```json
 {
   "valorTotal": 15000,
@@ -156,58 +156,58 @@ Updates an existing order.
 }
 ```
 
-### Delete Order
+### Deletar Pedido
 **DELETE** `/api/order/:orderId`
 
-Deletes an order and its items.
+Deleta um pedido e seus itens.
 
 **Response (200 OK):**
 ```json
 {
   "success": true,
   "data": {
-    "message": "Order v10089015vdb-01 deleted successfully",
+    "message": "Pedido v10089015vdb-01 deletado com sucesso",
     "orderId": "v10089015vdb-01"
   }
 }
 ```
 
-## HTTP Status Codes
+## Códigos de Status HTTP
 
-| Code | Description |
-|------|-------------|
-| 200 | OK - Successful request (GET, PUT) |
-| 201 | Created - Resource created successfully (POST) |
-| 400 | Bad Request - Invalid or incomplete data |
-| 404 | Not Found - Order not found |
-| 500 | Internal Server Error - Server error |
+| Código | Descrição |
+|--------|-----------|
+| 200 | OK - Requisição bem-sucedida (GET, PUT) |
+| 201 | Created - Recurso criado com sucesso (POST) |
+| 400 | Bad Request - Dados inválidos ou incompletos |
+| 404 | Not Found - Pedido não encontrado |
+| 500 | Internal Server Error - Erro no servidor |
 
-## Project Structure
+## Estrutura do Projeto
 
 ```
 jitterbit-order-api/
 ├── drizzle/
-│   ├── schema.ts          # Table definitions (Order, Items, Users)
-│   └── migrations/        # Migration history
+│   ├── schema.ts          # Definição das tabelas (Order, Items, Users)
+│   └── migrations/        # Histórico de migrações
 ├── server/
 │   ├── _core/
-│   │   └── index.ts       # Express configuration and routes
-│   ├── db.ts              # Database access functions
-│   ├── orderRoutes.ts     # Order API endpoints
-│   ├── orderValidation.ts # Data validation and transformation
-│   ├── orderValidation.test.ts # Unit tests
-│   └── routers.ts         # tRPC routes
-├── client/                # React frontend (optional)
-├── package.json           # Project dependencies
-├── drizzle.config.ts      # Drizzle ORM configuration
-└── README.md              # This file
+│   │   └── index.ts       # Configuração do Express e rotas
+│   ├── db.ts              # Funções de acesso ao banco de dados
+│   ├── orderRoutes.ts     # Endpoints da API de pedidos
+│   ├── orderValidation.ts # Validação e transformação de dados
+│   ├── orderValidation.test.ts # Testes unitários
+│   └── routers.ts         # Rotas tRPC
+├── client/                # Frontend React (opcional)
+├── package.json           # Dependências do projeto
+├── drizzle.config.ts      # Configuração do Drizzle ORM
+└── README.md              # Este arquivo
 ```
 
-## Data Transformation
+## Transformação de Dados
 
-The API automatically transforms data between request format and database format:
+A API realiza transformação automática entre o formato de requisição e o formato do banco de dados:
 
-**Input (API):**
+**Entrada (API):**
 - `numeroPedido` → `orderId`
 - `valorTotal` → `value`
 - `dataCriacao` → `creationDate`
@@ -215,55 +215,55 @@ The API automatically transforms data between request format and database format
 - `quantidadeItem` → `quantity`
 - `valorItem` → `price`
 
-## Validation
+## Validação
 
-The API validates all input data:
+A API valida todos os dados de entrada:
 
-- **numeroPedido**: Required, non-empty string
-- **valorTotal**: Required, positive number
-- **dataCriacao**: Required, valid ISO 8601 datetime
-- **items**: Required, array with at least one item
-- **idItem**: Required, non-empty string
-- **quantidadeItem**: Required, positive integer
-- **valorItem**: Required, positive number
+- **numeroPedido**: Obrigatório, string não vazia
+- **valorTotal**: Obrigatório, número positivo
+- **dataCriacao**: Obrigatório, ISO 8601 datetime válido
+- **items**: Obrigatório, array com pelo menos um item
+- **idItem**: Obrigatório, string não vazia
+- **quantidadeItem**: Obrigatório, inteiro positivo
+- **valorItem**: Obrigatório, número positivo
 
-## Testing
+## Testes
 
-Run unit tests:
+Execute os testes unitários:
 
 ```bash
 pnpm test
 ```
 
-Tests cover:
-- Input data validation
-- Data transformation
-- Error handling
-- Edge cases and validations
+Os testes cobrem:
+- Validação de dados de entrada
+- Transformação de dados
+- Tratamento de erros
+- Casos extremos e validações
 
-## Development
+## Desenvolvimento
 
-Start the server in development mode with hot reload:
+Para iniciar o servidor em modo desenvolvimento com hot reload:
 
 ```bash
 pnpm dev
 ```
 
-Check TypeScript types:
+Para verificar tipos TypeScript:
 
 ```bash
 pnpm check
 ```
 
-Format code:
+Para formatar o código:
 
 ```bash
 pnpm format
 ```
 
-## Usage Examples with cURL
+## Exemplo de Uso com cURL
 
-Create an order:
+Criar um pedido:
 ```bash
 curl --location 'http://localhost:3000/api/order' \
 --header 'Content-Type: application/json' \
@@ -281,17 +281,17 @@ curl --location 'http://localhost:3000/api/order' \
 }'
 ```
 
-Get an order:
+Obter um pedido:
 ```bash
 curl --location 'http://localhost:3000/api/order/v10089015vdb-01'
 ```
 
-List all orders:
+Listar todos os pedidos:
 ```bash
 curl --location 'http://localhost:3000/api/order/list'
 ```
 
-Update an order:
+Atualizar um pedido:
 ```bash
 curl --location --request PUT 'http://localhost:3000/api/order/v10089015vdb-01' \
 --header 'Content-Type: application/json' \
@@ -300,50 +300,50 @@ curl --location --request PUT 'http://localhost:3000/api/order/v10089015vdb-01' 
 }'
 ```
 
-Delete an order:
+Deletar um pedido:
 ```bash
 curl --location --request DELETE 'http://localhost:3000/api/order/v10089015vdb-01'
 ```
 
-## Error Handling
+## Tratamento de Erros
 
-Example error response:
+Exemplo de resposta de erro:
 
 ```json
 {
   "success": false,
-  "error": "Invalid order data",
+  "error": "Dados do pedido invalidos",
   "details": {
-    "numeroPedido": ["Order number is required"],
-    "items": ["At least one item is required"]
+    "numeroPedido": ["Numero do pedido e obrigatorio"],
+    "items": ["Pelo menos um item e obrigatorio"]
   }
 }
 ```
 
-## Database
+## Banco de Dados
 
-### Table: orders
-| Column | Type | Description |
-|--------|------|-------------|
-| orderId | VARCHAR(64) | Unique order identifier (primary key) |
-| value | INT | Total order value in cents |
-| creationDate | TIMESTAMP | Order creation date |
-| updatedAt | TIMESTAMP | Last update date |
+### Tabela: orders
+| Coluna | Tipo | Descrição |
+|--------|------|-----------|
+| orderId | VARCHAR(64) | Identificador único do pedido (chave primária) |
+| value | INT | Valor total do pedido em centavos |
+| creationDate | TIMESTAMP | Data de criação do pedido |
+| updatedAt | TIMESTAMP | Data da última atualização |
 
-### Table: items
-| Column | Type | Description |
-|--------|------|-------------|
-| id | INT | Unique item identifier (primary key) |
-| orderId | VARCHAR(64) | Order reference (foreign key) |
-| productId | INT | Product identifier |
-| quantity | INT | Item quantity |
-| price | INT | Unit price in cents |
-| createdAt | TIMESTAMP | Item creation date |
+### Tabela: items
+| Coluna | Tipo | Descrição |
+|--------|------|-----------|
+| id | INT | Identificador único do item (chave primária) |
+| orderId | VARCHAR(64) | Referência ao pedido (chave estrangeira) |
+| productId | INT | Identificador do produto |
+| quantity | INT | Quantidade do item |
+| price | INT | Preço unitário em centavos |
+| createdAt | TIMESTAMP | Data de criação do item |
 
-## License
+## Licença
 
 MIT
 
-## Contact
+## Contato
 
-For questions or suggestions, please contact the development team.
+Para dúvidas ou sugestões, entre em contato com a equipe de desenvolvimento.
