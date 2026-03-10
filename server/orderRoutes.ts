@@ -1,8 +1,3 @@
-/**
- * Order Management API Routes
- * Implements REST endpoints for CRUD operations on orders
- */
-
 import { Router, Request, Response } from "express";
 import {
   createOrder,
@@ -22,17 +17,9 @@ import {
 
 const router = Router();
 
-// ============================================================================
-// POST /api/order - Create a new order
-// ============================================================================
-/**
- * Creates a new order with items
- * Expects JSON body with numeroPedido, valorTotal, dataCriacao, and items array
- * Returns 201 Created on success, 400 Bad Request on validation error
- */
+// Criar novo pedido
 router.post("/order", async (req: Request, res: Response) => {
   try {
-    // Validate incoming order data
     const validation = validateIncomingOrder(req.body);
 
     if (!validation.valid) {
@@ -44,10 +31,8 @@ router.post("/order", async (req: Request, res: Response) => {
       );
     }
 
-    // Transform API format to database format
     const transformedOrder = transformOrderData(validation.data);
 
-    // Create order in database
     await createOrder(
       {
         orderId: transformedOrder.orderId,
@@ -57,7 +42,6 @@ router.post("/order", async (req: Request, res: Response) => {
       transformedOrder.items
     );
 
-    // Return created order
     return res.status(201).json(
       createSuccessResponse({
         orderId: transformedOrder.orderId,
@@ -74,13 +58,7 @@ router.post("/order", async (req: Request, res: Response) => {
   }
 });
 
-// ============================================================================
-// GET /api/order/:orderId - Get a specific order
-// ============================================================================
-/**
- * Retrieves a specific order by orderId
- * Returns 200 OK with order data on success, 404 Not Found if order doesn't exist
- */
+// Obter pedido específico
 router.get("/order/:orderId", async (req: Request, res: Response) => {
   try {
     const { orderId } = req.params;
@@ -110,13 +88,7 @@ router.get("/order/:orderId", async (req: Request, res: Response) => {
   }
 });
 
-// ============================================================================
-// GET /api/order/list - List all orders
-// ============================================================================
-/**
- * Retrieves all orders with their items
- * Returns 200 OK with array of orders
- */
+// Listar todos os pedidos
 router.get("/order/list", async (req: Request, res: Response) => {
   try {
     const orders = await getAllOrders();
@@ -136,14 +108,7 @@ router.get("/order/list", async (req: Request, res: Response) => {
   }
 });
 
-// ============================================================================
-// PUT /api/order/:orderId - Update an order
-// ============================================================================
-/**
- * Updates an existing order
- * Expects JSON body with fields to update (all optional)
- * Returns 200 OK with updated order, 404 Not Found if order doesn't exist
- */
+// Atualizar pedido
 router.put("/order/:orderId", async (req: Request, res: Response) => {
   try {
     const { orderId } = req.params;
@@ -154,7 +119,6 @@ router.put("/order/:orderId", async (req: Request, res: Response) => {
       );
     }
 
-    // Check if order exists
     const existingOrder = await getOrderById(orderId);
     if (!existingOrder) {
       return res.status(404).json(
@@ -162,7 +126,6 @@ router.put("/order/:orderId", async (req: Request, res: Response) => {
       );
     }
 
-    // Validate update data
     const validation = validateUpdateOrder(req.body);
     if (!validation.valid) {
       return res.status(400).json(
@@ -173,7 +136,6 @@ router.put("/order/:orderId", async (req: Request, res: Response) => {
       );
     }
 
-    // Prepare update object
     const updateData: any = {};
     if (validation.data.valorTotal !== undefined) {
       updateData.value = validation.data.valorTotal;
@@ -182,7 +144,6 @@ router.put("/order/:orderId", async (req: Request, res: Response) => {
       updateData.creationDate = new Date(validation.data.dataCriacao);
     }
 
-    // Update order
     const updatedOrder = await updateOrder(orderId, updateData);
 
     if (!updatedOrder) {
@@ -204,13 +165,7 @@ router.put("/order/:orderId", async (req: Request, res: Response) => {
   }
 });
 
-// ============================================================================
-// DELETE /api/order/:orderId - Delete an order
-// ============================================================================
-/**
- * Deletes an order and its items
- * Returns 200 OK on success, 404 Not Found if order doesn't exist
- */
+// Deletar pedido
 router.delete("/order/:orderId", async (req: Request, res: Response) => {
   try {
     const { orderId } = req.params;
@@ -221,7 +176,6 @@ router.delete("/order/:orderId", async (req: Request, res: Response) => {
       );
     }
 
-    // Check if order exists
     const existingOrder = await getOrderById(orderId);
     if (!existingOrder) {
       return res.status(404).json(
@@ -229,7 +183,6 @@ router.delete("/order/:orderId", async (req: Request, res: Response) => {
       );
     }
 
-    // Delete order
     await deleteOrder(orderId);
 
     return res.status(200).json(

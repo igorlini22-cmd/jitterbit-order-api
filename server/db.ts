@@ -89,16 +89,7 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// ============================================================================
-// ORDER MANAGEMENT QUERIES
-// ============================================================================
-
-/**
- * Create a new order with its items.
- * @param order - Order data to insert
- * @param orderItems - Array of items for the order
- * @returns The created order
- */
+// Funções para gerenciar pedidos no banco de dados
 export async function createOrder(
   order: InsertOrder,
   orderItems: Array<{ productId: number; quantity: number; price: number }>
@@ -128,11 +119,7 @@ export async function createOrder(
   }
 }
 
-/**
- * Get a specific order by orderId.
- * @param orderId - The order ID to retrieve
- * @returns Order with its items, or undefined if not found
- */
+// Busca um pedido específico com seus itens
 export async function getOrderById(orderId: string) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
@@ -161,10 +148,7 @@ export async function getOrderById(orderId: string) {
   }
 }
 
-/**
- * Get all orders with their items.
- * @returns Array of all orders with items
- */
+// Lista todos os pedidos
 export async function getAllOrders() {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
@@ -192,12 +176,7 @@ export async function getAllOrders() {
   }
 }
 
-/**
- * Update an existing order.
- * @param orderId - The order ID to update
- * @param updates - Fields to update
- * @returns The updated order
- */
+// Atualiza um pedido existente
 export async function updateOrder(
   orderId: string,
   updates: Partial<InsertOrder>
@@ -218,10 +197,7 @@ export async function updateOrder(
   }
 }
 
-/**
- * Delete an order and its items.
- * @param orderId - The order ID to delete
- */
+// Deleta um pedido e seus itens
 export async function deleteOrder(orderId: string) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
