@@ -25,4 +25,26 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+// Order table stores the main order information
+export const orders = mysqlTable("orders", {
+  orderId: varchar("orderId", { length: 64 }).primaryKey().notNull(),
+  value: int("value").notNull(),
+  creationDate: timestamp("creationDate").notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Order = typeof orders.$inferSelect;
+export type InsertOrder = typeof orders.$inferInsert;
+
+// Items table stores the line items for each order
+export const items = mysqlTable("items", {
+  id: int("id").autoincrement().primaryKey(),
+  orderId: varchar("orderId", { length: 64 }).notNull(),
+  productId: int("productId").notNull(),
+  quantity: int("quantity").notNull(),
+  price: int("price").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Item = typeof items.$inferSelect;
+export type InsertItem = typeof items.$inferInsert;
